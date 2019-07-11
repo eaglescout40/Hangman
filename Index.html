@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<link rel="stylesheet" type="text/css" href="../Hangman/Style.css">
+<meta charset="UTF-8">
+
+<head>
+  
+  <div class="wrapper">
+        <h1>Hangman</h1>
+         <h3>javascript</h3>
+             <p>Use the alphabet below to guess the word.</p>
+             <p>OR</p>
+             <p>Click hint to get a clue. </p>
+    </div>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div id="buttons">
+        </div>
+            
+            <p id="catagoryName"></p>
+                
+        <div id="hold">
+        </div>
+            
+            <p id="mylives"></p>
+            <p id="clue">Clue -</p>  
+            
+           
+            
+        <div class="container">
+            <button id="hint">Hint</button>
+            <button id="reset">Play again</button>
+        </div>
+            
+    </div>
+
+<script type="text/javascript">
+  window.onload = function () {
+
+var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+      'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+      't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+var categories;         // Array of topics
+var chosenCategory;     // Array of Selected catagory
+var getHint;            // Word getHint
+var word;               // Selected word
+var guess;              // Guess
+var guesses = [];       // Stored guesses
+var lives;              // Lives
+var counter;            // Count correct guesses
+var blanks;             // Number of spaces in word '-'
+
+// Get elements
+var showLives = document.getElementById("mylives");
+var showCatagory = document.getElementById("catagory");
+var getHint = document.getElementById("hint");
+var showClue = document.getElementById("clue");
+
+
+
+// create list for alphabet
+var buttons = function () {
+  myButtons = document.getElementById('buttons');
+  letters = document.createElement('ul');
+
+  for (var i = 0; i < alphabet.length; i++) {
+    letters.id = 'alphabet';
+    list = document.createElement('li');
+    list.id = 'letter';
+    list.innerHTML = alphabet[i];
+    check();
+    myButtons.appendChild(letters);
+    letters.appendChild(list);
+  }
+}
+  
+
+// Select Catagory
+var selectCat = function () {
+  if (chosenCategory === categories[0]) {
+    catagoryName.innerHTML = "The Chosen Category Is About Georgia";
+  } else if (chosenCategory === categories[1]) {
+    catagoryName.innerHTML = "The Chosen Category Is Films";
+  } else if (chosenCategory === categories[2]) {
+    catagoryName.innerHTML = "The Chosen Category Is American Geography";
+  }
+}
+
+// Create guesses ul
+ result = function () {
+  wordHolder = document.getElementById('hold');
+  correct = document.createElement('ul');
+
+  for (var i = 0; i < word.length; i++) {
+    correct.setAttribute('id', 'my-word');
+    guess = document.createElement('li');
+    guess.setAttribute('class', 'guess');
+    if (word[i] === "-") {
+      guess.innerHTML = "-";
+      blanks = 1;
+    } else {
+      guess.innerHTML = "_";
+    }
+
+    guesses.push(guess);
+    wordHolder.appendChild(correct);
+    correct.appendChild(guess);
+  }
+}
+
+// Show lives
+ comments = function () {
+  showLives.innerHTML = "You have " + lives + " lives";
+  if (lives < 1) {
+    showLives.innerHTML = "Game Over";
+  }
+  for (var i = 0; i < guesses.length; i++) {
+    if (counter + blanks === guesses.length) {
+      showLives.innerHTML = "You Win!";
+    }
+  }
+}
+
+// OnClick Function
+ check = function () {
+  list.onclick = function () {
+    var guess = (this.innerHTML);
+    this.setAttribute("class", "active");
+    this.onclick = null;
+    for (var i = 0; i < word.length; i++) {
+      if (word[i] === guess) {
+        guesses[i].innerHTML = guess;
+        counter += 1;
+      } 
+    }
+    var j = (word.indexOf(guess));
+    if (j === -1) {
+      lives -= 1;
+      comments();
+      animate();
+    } else {
+      comments();
+    }
+  }
+}
+
+  
+// Play
+play = function () {
+  categories = [
+      ["bulldogs", "braves", "atlanta falcons", "stone mountain", "georgia tech", "the varsity"],
+      ["iron man", "rocky", "the sound of music", "toy story", "star wars"],
+      ["washington dc", "alaska", "rhode island", "grand canyon", "south dakota"]
+  ];
+
+  chosenCategory = categories[Math.floor(Math.random() * categories.length)];
+  word = chosenCategory[Math.floor(Math.random() * chosenCategory.length)];
+  word = word.replace(/\s/g, "-");
+  console.log(word);
+  buttons();
+
+  guesses = [ ];
+  lives = 10;
+  counter = 0;
+  blanks = 0;
+  result();
+  comments();
+  selectCat();
+  //canvas();
+}
+
+play();
+
+// Hints -- Couldn't get these two buttons (Hint and Reset) to work (BOTH are copied and changed to attempt functionality)
+
+document.getElementById('hint').addEventListener("click", function() {
+
+    hint = [
+      ["Mascot in Athens, GA", "Atlanta, GA Baseball Team", "Football in Georgia", "Big Rock", "Major School in Downtown Atlanta", "Food Joint across from Tech"],
+      ["The First Avengers Film", "1976 Boxer film", "Musical based on real life singing family", "Pixars First Hit", "Groundbreaking Sci-Fi hit of 1977"],
+      ["Capital of the US", "Largest state", "Smallest State", "Geological Feature in AZ", "Where Mt. Rushmore is located"]
+  ];
+
+  var catagoryIndex = categories.indexOf(chosenCategory);
+  console.log(catagoryIndex);
+  var hintIndex = chosenCategory.indexOf(word);
+  console.log(hint [catagoryIndex][hintIndex])
+  console.log(hintIndex);
+  showClue.innerHTML = "Clue: - " + hint [catagoryIndex][hintIndex];
+});
+
+ // Reset --- This reset was copied
+
+  document.getElementById('reset').onclick = function() {
+  correct.parentNode.removeChild(correct);
+  letters.parentNode.removeChild(letters);
+  showClue.innerHTML = "";
+  context.clearRect(0, 0, 400, 400);
+  play();
+}
+}
+
+  </script>
+</body>
+
+</html>
+
+
+
+
