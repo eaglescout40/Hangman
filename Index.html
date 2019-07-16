@@ -28,9 +28,7 @@
             
             <p id="mylives"></p>
             <p id="clue">Clue -</p>  
-            
-           
-            
+                     
         <div class="container">
             <button id="hint">Hint</button>
             <button id="reset">Play again</button>
@@ -45,25 +43,24 @@ var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
       'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
       't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-var categories;         // Array of topics
-var chosenCategory;     // Array of Selected catagory
-var getHint;            // Word getHint
-var word;               // Selected word
-var guess;              // Guess
-var guesses = [];       // Stored guesses
-var lives;              // Lives
-var counter;            // Count correct guesses
-var blanks;             // Number of spaces in word '-'
+var categories;        
+var chosenCategory;     
+var getHint;            
+var word;               
+var guess;              
+var guesses = [];       
+var lives;              
+var counter;           
+var blanks;             
 
-// Get elements
+// Get Different Elements
 var showLives = document.getElementById("mylives");
 var showCatagory = document.getElementById("catagory");
 var getHint = document.getElementById("hint");
 var showClue = document.getElementById("clue");
 
 
-
-// create list for alphabet
+// Create list for alphabet
 var buttons = function () {
   myButtons = document.getElementById('buttons');
   letters = document.createElement('ul');
@@ -79,7 +76,6 @@ var buttons = function () {
   }
 }
   
-
 // Select Catagory
 var selectCat = function () {
   if (chosenCategory === categories[0]) {
@@ -91,7 +87,7 @@ var selectCat = function () {
   }
 }
 
-// Create guesses ul
+// Guesses
  result = function () {
   wordHolder = document.getElementById('hold');
   correct = document.createElement('ul');
@@ -113,7 +109,7 @@ var selectCat = function () {
   }
 }
 
-// Show lives
+// Show lives Left
  comments = function () {
   showLives.innerHTML = "You have " + lives + " lives";
   if (lives < 1) {
@@ -148,9 +144,8 @@ var selectCat = function () {
     }
   }
 }
-
   
-// Play
+// Play the game
 play = function () {
   categories = [
       ["bulldogs", "braves", "atlanta falcons", "stone mountain", "georgia tech", "the varsity"],
@@ -171,8 +166,7 @@ play = function () {
   result();
   comments();
   selectCat();
-  //canvas();
-}
+  }
 
 play();
 
@@ -194,7 +188,7 @@ document.getElementById('hint').addEventListener("click", function() {
   showClue.innerHTML = "Clue: - " + hint [catagoryIndex][hintIndex];
 });
 
- // Reset --- This reset was copied
+ // Reset
 
   document.getElementById('reset').onclick = function() {
   correct.parentNode.removeChild(correct);
